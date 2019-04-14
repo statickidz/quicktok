@@ -26,7 +26,7 @@
       <svg class="svg-tiktok">
         <use xlink:href="#icon-tiktok"></use>
       </svg>
-      <figcaption>tokcat.com</figcaption>
+      <figcaption>quicktok.live</figcaption>
     </figure>
     <p class="sub">TikTok trending viewer</p>
   </div>
@@ -46,7 +46,7 @@ export default {
 .item {
   display: flex;
   align-items: center;
-  font-size: 2.4rem;
+  font-size: 2.1rem;
   line-height: 3rem;
   color: #fff;
   white-space: nowrap;
@@ -67,15 +67,15 @@ export default {
 
   .svg-tiktok {
     fill: #fff;
-    width: 3rem;
-    height: 3rem;
+    width: 2.5rem;
+    height: 2.5rem;
   }
 }
 
 .sub {
   font-size: 1rem;
   margin-top: -0.3rem;
-  padding-left: 3.8rem;
+  padding-left: 4.6rem;
   color: white;
 }
 
