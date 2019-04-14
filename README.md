@@ -1,6 +1,7 @@
-# tiktok
+# quicktok
 
-> My cat&#39;s meow Nuxt.js project
+> TikTok trending viewer build with Vue
+> [quicktok.live](https://quicktok.live)
 
 ## Build Setup
 
