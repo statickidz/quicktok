@@ -28,7 +28,7 @@
       </svg>
       <figcaption>tokcat.com</figcaption>
     </figure>
-    <p class="sub">Tik Tok trending viewer</p>
+    <p class="sub">TikTok trending viewer</p>
   </div>
 </template>
 

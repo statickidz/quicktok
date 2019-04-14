@@ -1,7 +1,7 @@
 {
-  "name": "tiktok",
+  "name": "quicktok",
   "version": "1.0.0",
-  "description": "My cat&#39;s meow Nuxt.js project",
+  "description": "TikTok trending viewer",
   "author": "Adrián",
   "private": true,
   "scripts": {
