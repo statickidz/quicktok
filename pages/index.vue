@@ -1,13 +1,13 @@
 <template>
-  <videos />
+  <slider />
 </template>
 
 <script>
-import Videos from '~/components/Videos.vue'
+import Slider from '~/components/Slider.vue'
 
 export default {
   components: {
-    Videos,
+    Slider,
   }
 }
 </script>
