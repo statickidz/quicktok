@@ -23,7 +23,12 @@
         />
         <div class="info">
           <div class="author animated wobble">
-            <img class="avatar" :src="video.authorInfos.covers[0]">
+            <a
+              target="_blank"
+              :href="'https://www.tiktok.com/share/user/' + video.authorInfos.userId"
+            >
+              <img class="avatar" :src="video.authorInfos.covers[0]">
+            </a>
             <div>
               <a
                 class="name"
@@ -184,8 +189,8 @@ body {
     left: 0;
     z-index: 9998;
     .avatar {
-      width: 130px;
-      height: 130px;
+      width: auto;
+      height: 145px;
       padding-right: 2rem;
     }
     .name,
@@ -196,16 +201,18 @@ body {
       padding-bottom: 0.5rem;
     }
     .name {
-      font-size: 2.5rem;
+      font-size: 2rem;
       letter-spacing: 1px;
     }
     .song {
-      font-size: 1.4rem;
+      max-width: 50%;
+      font-size: 1rem;
       text-transform: uppercase;
-      padding-bottom: 0.6rem;
+      padding-bottom: 0.3rem;
     }
     .desc {
-      font-size: 1.4rem;
+      max-width: 50%;
+      font-size: 1.2rem;
     }
   }
   .video {
@@ -238,7 +245,7 @@ body {
   .likes {
     color: white;
     padding: 0.6rem;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     text-transform: uppercase;
     text-shadow: 1px 1px 2px black;
   }
@@ -247,7 +254,7 @@ body {
     display: block;
     width: 30px;
     height: 30px;
-    background: #ecf0f1;
+    background: white;
     border-radius: 0 0 0 10px;
     transform: rotate(-45deg);
     animation: pulse 1s infinite;
@@ -258,7 +265,7 @@ body {
     content: '';
     width: 30px;
     height: 30px;
-    background: #ecf0f1;
+    background: white;
     border-radius: 50%;
   }
   .heart::before {
