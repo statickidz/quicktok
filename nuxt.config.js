@@ -46,7 +46,13 @@ export default {
     '@nuxtjs/proxy',
     // Doc: https://bootstrap-vue.js.org/docs/
     'bootstrap-vue/nuxt',
-    '@nuxtjs/pwa'
+    '@nuxtjs/pwa',
+    ['@nuxtjs/google-analytics', {
+      id: 'UA-58039701-11',
+      debug: {
+        enabled: true,
+      },
+    }]
   ],
 
   /*

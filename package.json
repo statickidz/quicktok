@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.3.6",
+    "@nuxtjs/google-analytics": "^2.2.0",
     "@nuxtjs/pwa": "^2.6.0",
     "animate.css": "^3.7.0",
     "bootstrap": "^4.1.3",
