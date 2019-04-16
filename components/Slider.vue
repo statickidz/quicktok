@@ -77,8 +77,11 @@ export default {
     Slide,
     Logo
   },
-  created() {
-    this.loadVideos()
+  async created() {
+    await this.loadVideos()
+    if (this.videos.length > 0) {
+      this.$refs.videoRef[0].play()
+    }
   },
   methods: {
     loadVideos() {
@@ -87,7 +90,7 @@ export default {
     onVideoEnd(index) {
       this.$refs.sliderRef.slideNext()
       // load more if there is less than 10 videos left
-      if (index + 10 > this.videos.length) {
+      if (index + 10 > this.videos) {
         this.loadVideos()
       }
     },
