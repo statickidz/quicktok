@@ -1,6 +1,8 @@
-# quicktok
+<p align="center">
+  <img src="https://i.gyazo.com/abdc938d88899df2853bf93c0a543af9.gif">
+</p>
 
-> TikTok trending viewer build with Vue
+# TikTok popular stuff viewer
 > [quicktok.live](https://quicktok.live)
 
 ## Build Setup
