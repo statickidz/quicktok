@@ -9,6 +9,7 @@
       @slide="onSlide"
     >
       <slide class="slide" v-for="(item, index) in videos" :key="index">
+        <div class="background" :style="{'background-image': 'url(' + item.video.cover.url_list[0] + ')'}" />
         <video
           ref="videoRef"
           controls="controls"
@@ -163,17 +164,22 @@ body {
   color: #ffffff;
   font-size: 30px;
 }
-.controls {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-}
 .slide {
   display: flex;
   align-items: center;
   position: relative;
   left: 0;
   top: 0;
+  .background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-size: 120%;
+    background-position: center;
+    opacity: .4;
+    filter: blur(2rem);
+    z-index: -1;
+  }
   .author {
     display: flex;
     align-items: center;
@@ -215,6 +221,11 @@ body {
     min-width: 100%;
     z-index: 9997;
   }
+  video {
+    &::-webkit-media-controls-panel {
+      display: none !important;
+    }
+  }
   .progress-bar {
     position: absolute;
     top: 0;
@@ -252,23 +263,23 @@ body {
     border-radius: 0 0 0 10px;
     transform: rotate(-45deg);
     animation: pulse 1s infinite;
-  }
-  .heart::before,
-  .heart::after {
-    position: absolute;
-    content: '';
-    width: 30px;
-    height: 30px;
-    background: white;
-    border-radius: 50%;
-  }
-  .heart::before {
-    top: -15px;
-    left: 0;
-  }
-  .heart::after {
-    top: 0;
-    right: -15px;
+    &:before,
+    &:after {
+      position: absolute;
+      content: '';
+      width: 30px;
+      height: 30px;
+      background: white;
+      border-radius: 50%;
+    }
+    &:before {
+      top: -15px;
+      left: 0;
+    }
+    &:after {
+      top: 0;
+      right: -15px;
+    }
   }
   @keyframes pulse {
     0%,
@@ -288,12 +299,6 @@ body {
     100% {
       transform: rotate(-45deg) scale(1);
     }
-  }
-}
-
-video {
-  &::-webkit-media-controls-panel {
-    display: none !important;
   }
 }
 </style>
