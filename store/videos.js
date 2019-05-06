@@ -1,21 +1,25 @@
 const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/'
-const API_BASE = `${CORS_PROXY}https://m.tiktok.com`
+const API_BASE = `${CORS_PROXY}https://vidnice.com/APIswitch.php?key=feed`
 
 export const state = () => ({
   videos: [],
-  maxCursor: 0,
+  maxCursor: 0
 })
 
 export const actions = {
   async get({ commit, state }) {
-    return await this.$axios
-      .get(
-        `${API_BASE}/share/item/list?id=&type=5&count=100&maxCursor=${state.maxCursor}&minCursor=0`
-      )
+    let formData = new FormData()
+    let region = navigator.language.split('-')[0].toLowerCase()
+    formData.set('region', region)
+    return await this.$axios({
+      method: 'post',
+      url: API_BASE,
+      data: formData,
+      config: { headers: { 'Content-Type': 'multipart/form-data' } }
+    })
       .then(async res => {
         if (res.status === 200) {
-          await commit('setMaxCursor', res.data.body.maxCursor)
-          await commit('append', res.data.body.itemListData)
+          await commit('append', res.data.tiktokdata.aweme_list)
           await commit('shuffle')
         }
       })
@@ -23,7 +27,7 @@ export const actions = {
   },
   async shuffle({ commit, state }) {
     await commit('shuffle')
-  },
+  }
 }
 
 export const mutations = {
@@ -38,7 +42,7 @@ export const mutations = {
   },
   setMaxCursor(state, maxCursor) {
     state.maxCursor = maxCursor
-  },
+  }
 }
 
 export const getters = {

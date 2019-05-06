@@ -50,7 +50,7 @@ export default {
     ['@nuxtjs/google-analytics', {
       id: 'UA-58039701-11',
       debug: {
-        enabled: true,
+        enabled: false,
       },
     }]
   ],

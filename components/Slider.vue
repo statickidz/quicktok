@@ -8,15 +8,15 @@
       :settings="sliderSettings"
       @slide="onSlide"
     >
-      <slide class="slide" v-for="(video, index) in videos" :key="index">
+      <slide class="slide" v-for="(item, index) in videos" :key="index">
         <video
           ref="videoRef"
           controls="controls"
           controlslist="nofullscreen nodownload"
           preload="none"
           style="height: 100vh; width: auto;"
-          :poster="video.itemInfos.covers[0]"
-          :src="parseVideoUrl(video.itemInfos.video.urls[3])"
+          :poster="item.video.cover.url_list[0]"
+          :src="item.video.play_addr.url_list[0]"
           @ended="onVideoEnd(index+1)"
           @play="onVideoPlay(index+1)"
           @click="onVideoClick"
@@ -25,34 +25,31 @@
           <div class="author animated wobble">
             <a
               target="_blank"
-              :href="'https://www.tiktok.com/share/user/' + video.authorInfos.userId"
+              :href="'https://www.tiktok.com/share/user/' + item.author.uid"
             >
-              <img class="avatar" :src="video.authorInfos.covers[0]">
+              <img class="avatar" :src="item.author.avatar_300x300.url_list[0]">
             </a>
             <div>
               <a
                 class="name"
                 target="_blank"
-                :href="'https://www.tiktok.com/share/user/' + video.authorInfos.userId"
-              >@{{video.authorInfos.uniqueId}}</a>
-              <div class="song">🎵 {{video.musicInfos.authorName}} - {{video.musicInfos.musicName}}</div>
-              <div class="desc">{{video.itemInfos.text}}</div>
+                :href="'https://www.tiktok.com/share/user/' + item.author.uid"
+              >@{{item.author.unique_id}}</a>
+              <div class="song">🎵 {{item.music.author}} - {{item.music.title}}</div>
+              <div class="desc">{{item.desc}}</div>
             </div>
           </div>
           <a
             class="heart-container"
             target="_blank"
-            :href="'https://www.tiktok.com/share/video/' + video.itemInfos.id"
+            :href="item.share_url"
           >
             <div class="heart pulse"></div>
-            <div class="likes">{{video.itemInfos.diggCount}}</div>
+            <div class="likes">{{item.statistics.digg_count}}</div>
           </a>
         </div>
       </slide>
     </hooper>
-    <!--<div class="controls">
-      <button class="add" @click="loadMore">load more</button>
-    </div>-->
   </div>
 </template>
 
@@ -92,22 +89,25 @@ export default {
     loadVideos() {
       return this.$store.dispatch('videos/get').then(() => this.restart())
     },
-    onVideoEnd(index) {
-      this.$refs.sliderRef.slideNext()
+    loadMore(currentIndex) {
       // load more if there is less than 10 videos left
-      if (index + 10 > this.videos) {
+      if (currentIndex + 10 > this.videos.length) {
         this.loadVideos()
       }
+    },
+    onVideoEnd(index) {
+      this.$refs.sliderRef.slideNext()
+      this.loadMore(index)
     },
     onVideoPlay(index) {
       //this.$refs.videoRef[index].volume = 0
     },
     onVideoClick(event) {
       const video = event.target
-      if (video.paused) {
-        video.play()
+      if (item.paused) {
+        item.play()
       } else {
-        video.pause()
+        item.pause()
       }
     },
     onSlide({ currentSlide, slideFrom }) {
@@ -120,13 +120,7 @@ export default {
       if (undefined !== this.$refs.videoRef[currentSlide + 1]) {
         this.$refs.videoRef[currentSlide + 1].preload = 'auto'
       }
-    },
-    parseVideoUrl(url) {
-      return url
-        .replace('line=1', 'line=0')
-        .replace('&watermark=1', '')
-        .replace('&test_cdn=None', '')
-        .replace('&logo_name=tiktok_m', '')
+      this.loadMore(currentSlide)
     },
     restart() {
       return this.$nextTick().then(async () => {
