@@ -104,10 +104,10 @@ export default {
     },
     onVideoClick(event) {
       const video = event.target
-      if (item.paused) {
-        item.play()
+      if (video.paused) {
+        video.play()
       } else {
-        item.pause()
+        video.pause()
       }
     },
     onSlide({ currentSlide, slideFrom }) {
