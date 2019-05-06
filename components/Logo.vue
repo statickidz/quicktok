@@ -28,7 +28,7 @@
       </svg>
       <figcaption>quicktok.live</figcaption>
     </figure>
-    <p class="sub">TikTok trending viewer</p>
+    <p class="sub">Tik Tok popular songs</p>
   </div>
 </template>
 
