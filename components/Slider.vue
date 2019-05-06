@@ -16,7 +16,7 @@
           preload="none"
           style="height: 100vh; width: auto;"
           :poster="item.video.cover.url_list[0]"
-          :src="item.video.play_addr.url_list[0]"
+          :src="item.video.play_addr.url_list[2]"
           @ended="onVideoEnd(index+1)"
           @play="onVideoPlay(index+1)"
           @click="onVideoClick"

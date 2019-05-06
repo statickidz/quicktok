@@ -20,7 +20,6 @@ export const actions = {
       .then(async res => {
         if (res.status === 200) {
           await commit('append', res.data.tiktokdata.aweme_list)
-          await commit('shuffle')
         }
       })
       .catch(e => console.log(e))
