@@ -27,7 +27,7 @@
               target="_blank"
               :href="'https://www.tiktok.com/share/user/' + item.author.uid"
             >
-              <img class="avatar" :src="item.author.avatar_300x300.url_list[0]">
+              <img class="avatar" :src="item.author.avatar_300x300.url_list[0].replace('http', 'https')">
             </a>
             <div>
               <a
