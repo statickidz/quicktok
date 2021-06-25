@@ -1,6 +1,7 @@
 <template>
   <div>
-    <logo class="logo"/>
+    <logo class="logo" />
+    <div v-if="error" class="error">{{ error }}</div>
     <hooper
       ref="sliderRef"
       style="height: 100vh"
@@ -9,44 +10,62 @@
       @slide="onSlide"
     >
       <slide class="slide" v-for="(item, index) in videos" :key="index">
-        <div class="background" :style="{'background-image': 'url(' + item.video.cover.url_list[0] + ')'}" />
+        <div
+          class="background"
+          :style="{
+            'background-image':
+              'url(' + item.video.origin_cover.url_list[0] + ')',
+          }"
+        />
+        <div v-if="!playing" class="controls">
+          <div @click="onPlayClick" class="video-play-button"></div>
+        </div>
         <video
+          loop
+          autoplay
           ref="videoRef"
           controls="controls"
           controlslist="nofullscreen nodownload"
           preload="none"
-          style="height: 100vh; width: auto;"
-          :poster="item.video.cover.url_list[0]"
-          :src="item.video.play_addr.url_list[2]"
-          @ended="onVideoEnd(index+1)"
-          @play="onVideoPlay(index+1)"
+          style="height: 100vh; width: auto"
+          :poster="item.video.origin_cover.url_list[0]"
+          :src="item.video.play_addr.url_list[0]"
+          @ended="onVideoEnd(index + 1)"
+          @play="onVideoPlay(index + 1)"
           @click="onVideoClick"
         />
         <div class="info">
           <div class="author animated wobble">
             <a
               target="_blank"
-              :href="'https://www.tiktok.com/share/user/' + item.author.uid"
+              :href="`https://www.tiktok.com/@${item.author.uid}`"
             >
-              <img class="avatar" :src="item.author.avatar_300x300.url_list[0].replace('http', 'https')">
+              <img
+                class="avatar"
+                :src="
+                  item.author.avatar_larger.url_list[0].replace('http', 'https')
+                "
+              />
             </a>
             <div>
               <a
                 class="name"
                 target="_blank"
-                :href="'https://www.tiktok.com/share/user/' + item.author.uid"
-              >@{{item.author.unique_id}}</a>
-              <div class="song">🎵 {{item.music.author}} - {{item.music.title}}</div>
-              <div class="desc">{{item.desc}}</div>
+                :href="`https://www.tiktok.com/@${item.author.uid}`"
+                >@{{ item.author.nickname }}</a
+              >
+              <div class="desc">{{ item.desc }}</div>
             </div>
           </div>
           <a
             class="heart-container"
             target="_blank"
-            :href="item.share_url"
+            :href="`https://www.tiktok.com/@${item.author.uid}/video/${item.aweme_id}`"
           >
             <div class="heart pulse"></div>
-            <div class="likes">{{item.statistics.digg_count}}</div>
+            <div class="likes">
+              {{ prettyNumber(item.statistics.digg_count) }}
+            </div>
           </a>
         </div>
       </slide>
@@ -62,28 +81,32 @@ import Logo from '~/components/Logo.vue'
 
 export default {
   computed: mapGetters({
-    videos: 'videos/videos'
+    videos: 'videos/videos',
   }),
   data() {
     return {
+      playing: false,
+      currentSlide: 0,
+      prevSlide: 0,
+      error: false,
       sliderSettings: {
         vertical: true,
         itemsToShow: 1,
         centerMode: true,
         mouseDrag: false,
-        touchDrag: false
-      }
+        touchDrag: false,
+      },
     }
   },
   components: {
     Hooper,
     Slide,
-    Logo
+    Logo,
   },
   async created() {
     await this.loadVideos()
-    if (this.videos.length > 0) {
-      this.$refs.videoRef[0].play()
+    if (this.videos.length <= 0) {
+      this.error = '⚠️ API is not working, refresh or try later'
     }
   },
   methods: {
@@ -111,9 +134,17 @@ export default {
         video.pause()
       }
     },
+    onPlayClick() {
+      this.playing = true
+      this.$refs.videoRef[this.currentSlide].play()
+    },
     onSlide({ currentSlide, slideFrom }) {
+      this.currentSlide = currentSlide
+      this.prevSlide = slideFrom
       // play video and pause previous
-      this.$refs.videoRef[currentSlide].play()
+      if (this.playing) {
+        this.$refs.videoRef[currentSlide].play()
+      }
       if (slideFrom > 0 || currentSlide === 1) {
         this.$refs.videoRef[slideFrom].pause()
       }
@@ -125,11 +156,21 @@ export default {
     },
     restart() {
       return this.$nextTick().then(async () => {
-        await this.$refs.sliderRef.initSlides()
-        await this.$refs.sliderRef.update()
+        if (this.videos.length > 0) {
+          await this.$refs.sliderRef.update()
+        }
       })
-    }
-  }
+    },
+    prettyNumber(number) {
+      const SI_SYMBOL = ['', 'k', 'M', 'G', 'T', 'P', 'E']
+      const tier = (Math.log10(Math.abs(number)) / 3) | 0
+      if (tier == 0) return number
+      const suffix = SI_SYMBOL[tier]
+      const scale = Math.pow(10, tier * 3)
+      const scaled = number / scale
+      return scaled.toFixed(1) + suffix
+    },
+  },
 }
 </script>
 
@@ -164,6 +205,16 @@ body {
   color: #ffffff;
   font-size: 30px;
 }
+.error {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 18px;
+}
 .slide {
   display: flex;
   align-items: center;
@@ -176,7 +227,7 @@ body {
     height: 100%;
     background-size: 120%;
     background-position: center;
-    opacity: .4;
+    opacity: 0.4;
     filter: blur(2rem);
     z-index: -1;
   }
@@ -194,7 +245,6 @@ body {
       padding-right: 2rem;
     }
     .name,
-    .song,
     .desc {
       color: white;
       text-shadow: 1px 1px 2px black;
@@ -203,12 +253,6 @@ body {
     .name {
       font-size: 2rem;
       letter-spacing: 1px;
-    }
-    .song {
-      max-width: 50%;
-      font-size: 1rem;
-      text-transform: uppercase;
-      padding-bottom: 0.3rem;
     }
     .desc {
       max-width: 50%;
@@ -279,6 +323,70 @@ body {
     &:after {
       top: 0;
       right: -15px;
+    }
+  }
+  .controls {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.43);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+
+    .video-play-button {
+      background-position: 0px 0px;
+      cursor: pointer;
+      transform: matrix(1, 0, 0, 1, 0, 0);
+      content: '';
+      border: 0px none white;
+      outline: white none 0px;
+      &:after {
+        cursor: pointer;
+        display: block;
+        height: 48px;
+        position: absolute;
+        width: 40px;
+        transform: matrix(1, 0, 0, 1, -20, -24);
+        transform-origin: 20px 24px;
+        content: '';
+        border-top: 24px solid transparent;
+        border-right: 0px solid transparent;
+        border-bottom: 24px solid transparent;
+        border-left: 40px solid white;
+        margin: 0px 0px 0px 4.80000019073486px;
+        transition: border 0.15s ease 0s, box-shadow 0.15s ease 0s;
+      }
+      &:before {
+        box-shadow: white 0px 0px 0px 1.79999995231628px inset,
+          white 0px 0px 0px 4.80000019073486px,
+          rgba(0, 0, 0, 0.247059) 0px 0px 3.59999990463257px 1.79999995231628px;
+        cursor: pointer;
+        display: block;
+        height: 96px;
+        position: absolute;
+        width: 96px;
+        transform: matrix(1, 0, 0, 1, -48, -48);
+        transform-origin: 48px 48px;
+        content: '';
+        border: 9px solid transparent;
+        border-radius: 48px 48px 48px 48px;
+        margin: 0px -64.3199996948242px -24px 0px;
+        transition: border 0.15s ease 0s, box-shadow 0.15s ease 0s;
+      }
+      &:hover {
+        z-index: 1;
+        transform: matrix(1, 0, 0, 1, 0, 0);
+        border: 0px none white;
+        &:before {
+          box-shadow: white 0px 0px 0px 4.80000019073486px inset,
+            white 0px 0px 0px 1.79999995231628px,
+            rgba(0, 0, 0, 0.247059) 0px 0px 3.59999990463257px
+              1.79999995231628px;
+          border: 4px solid transparent;
+        }
+      }
     }
   }
   @keyframes pulse {

@@ -1,4 +1,4 @@
-const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/'
+const CORS_PROXY = 'https://thingproxy.freeboard.io/fetch/'
 const API_BASE = `${CORS_PROXY}https://vidnice.com/APIswitch.php?key=feed`
 
 export const state = () => ({
@@ -8,14 +8,11 @@ export const state = () => ({
 
 export const actions = {
   async get({ commit, state }) {
-    let formData = new FormData()
-    let region = navigator.language.split('-')[0].toLowerCase()
-    formData.set('region', region)
     return await this.$axios({
       method: 'post',
       url: API_BASE,
-      data: formData,
-      config: { headers: { 'Content-Type': 'multipart/form-data' } }
+      data: 'region=es',
+      config: { headers: { 'content-type': 'application/x-www-form-urlencoded; charset=UTF-8' } }
     })
       .then(async res => {
         if (res.status === 200) {

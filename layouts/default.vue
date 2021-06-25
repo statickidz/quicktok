@@ -26,6 +26,14 @@ body {
   margin: 0;
 }
 
+a {
+  color: white;
+}
+
+a:hover {
+  color: white;
+}
+
 .button--green {
   display: inline-block;
   border-radius: 4px;

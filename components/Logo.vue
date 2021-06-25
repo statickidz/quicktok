@@ -2,7 +2,7 @@
   <div>
     <svg
       aria-hidden="true"
-      style="position: absolute; width: 0; height: 0; overflow: hidden;"
+      style="position: absolute; width: 0; height: 0; overflow: hidden"
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -18,17 +18,16 @@
       </defs>
     </svg>
 
-    <figure
-      ref="logoRef"
-      class="item"
-      @click="toggleShake"
-    >
+    <figure ref="logoRef" class="item shaking" @click="toggleShake">
       <svg class="svg-tiktok">
         <use xlink:href="#icon-tiktok"></use>
       </svg>
       <figcaption>quicktok.live</figcaption>
     </figure>
-    <p class="sub">Tik Tok popular songs</p>
+    <p class="sub">
+      Tik Tok popular trends by
+      <a target="_blank" href="https://github.com/statickidz">statickidz</a>
+    </p>
   </div>
 </template>
 
@@ -37,8 +36,8 @@ export default {
   methods: {
     toggleShake() {
       this.$refs.logoRef.classList.toggle('shaking')
-    }
-  }
+    },
+  },
 }
 </script>
 
@@ -61,7 +60,7 @@ export default {
   }
 
   figcaption {
-    padding-left: .4rem;
+    padding-left: 0.4rem;
     display: inline;
   }
 
