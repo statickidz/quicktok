@@ -19,6 +19,11 @@
         />
         <div v-if="!firstPlayDone" class="controls">
           <div @click="onPlayClick" class="video-play-button"></div>
+          <div class="scroll-down">
+            <span class="mouse">
+              <span class="move"></span>
+            </span>
+          </div>
         </div>
         <video
           loop
@@ -338,6 +343,7 @@ body {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.43);
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     z-index: 10000;
@@ -349,6 +355,7 @@ body {
       content: '';
       border: 0px none white;
       outline: white none 0px;
+      transform: scale(0.7);
       &:after {
         cursor: pointer;
         display: block;
@@ -398,6 +405,31 @@ body {
   }
 }
 
+.scroll-down {
+  margin-top: 70px;
+  transform: scale(0.7);
+  .mouse {
+    margin: 0 auto;
+    display: block;
+    border-radius: 50px;
+    border: 2px solid #fff;
+    height: 100px;
+    width: 50px;
+    position: relative;
+
+    .move {
+      position: absolute;
+      background-color: #fff;
+      height: 10px;
+      width: 10px;
+      border-radius: 50%;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: move 2s linear infinite;
+    }
+  }
+}
+
 @keyframes pulse {
   0%,
   20% {
@@ -415,6 +447,21 @@ body {
   70%,
   100% {
     transform: rotate(-45deg) scale(1);
+  }
+}
+
+@keyframes move {
+  0% {
+    transform: translate(-50%, 10px);
+    opacity: 0;
+  }
+  50% {
+    transform: translate(-50%, 40px);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, 80px);
+    opacity: 0;
   }
 }
 
