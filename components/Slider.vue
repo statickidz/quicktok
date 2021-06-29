@@ -96,7 +96,7 @@ export default {
         itemsToShow: 1,
         centerMode: true,
         mouseDrag: false,
-        touchDrag: false,
+        touchDrag: true,
       },
     }
   },
@@ -196,6 +196,9 @@ body {
   padding: 3rem;
   z-index: 1;
 }
+.hooper {
+  height: 100vh;
+}
 .hooper-track {
   margin: 0;
   padding: 0;
@@ -243,6 +246,7 @@ body {
     left: 0;
     z-index: 9998;
     .avatar {
+      display: none;
       width: auto;
       height: 145px;
       padding-right: 2rem;
@@ -392,23 +396,56 @@ body {
       }
     }
   }
-  @keyframes pulse {
-    0%,
-    20% {
-      transform: rotate(-45deg) scale(1);
+}
+
+@keyframes pulse {
+  0%,
+  20% {
+    transform: rotate(-45deg) scale(1);
+  }
+  30% {
+    transform: rotate(-45deg) scale(1.2);
+  }
+  50% {
+    transform: rotate(-45deg) scale(1);
+  }
+  60% {
+    transform: rotate(-45deg) scale(1.1);
+  }
+  70%,
+  100% {
+    transform: rotate(-45deg) scale(1);
+  }
+}
+
+@media (max-width: 600px) {
+  body,
+  html {
+    overflow: hidden;
+  }
+
+  .logo {
+    padding: 0.5rem;
+  }
+
+  .slide {
+    .heart-container {
+      display: none;
     }
-    30% {
-      transform: rotate(-45deg) scale(1.2);
-    }
-    50% {
-      transform: rotate(-45deg) scale(1);
-    }
-    60% {
-      transform: rotate(-45deg) scale(1.1);
-    }
-    70%,
-    100% {
-      transform: rotate(-45deg) scale(1);
+
+    .author {
+      padding: 1rem;
+      display: none;
+
+      .avatar {
+        padding-right: 1rem;
+      }
+      .name {
+        font-size: 1rem;
+      }
+      .desc {
+        font-size: 0.5rem;
+      }
     }
   }
 }

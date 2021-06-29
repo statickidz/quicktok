@@ -22,7 +22,7 @@
       <svg class="svg-tiktok">
         <use xlink:href="#icon-tiktok"></use>
       </svg>
-      <figcaption>quicktok.live</figcaption>
+      <figcaption>quicktok</figcaption>
     </figure>
     <p class="sub">
       Tik Tok popular trends by
@@ -102,6 +102,29 @@ export default {
   100% {
     filter: drop-shadow(-3px 1px 0px #0ff) drop-shadow(1px -3px 0px #f00);
     transform: translate(1px, 1px);
+  }
+}
+
+@media (max-width: 600px) {
+  .item {
+    font-size: 1.5rem;
+    filter: drop-shadow(1.5px -1.5px 0px #0ff)
+      drop-shadow(1.5px -1.5px 0px #f00);
+
+    &.shaking {
+      animation: none;
+    }
+
+    .svg-tiktok {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+  }
+
+  .sub {
+    font-size: 0.6rem;
+    margin-top: -0.3rem;
+    padding-left: 0.6rem;
   }
 }
 </style>
