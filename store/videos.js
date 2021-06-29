@@ -1,4 +1,4 @@
-const PROXY = window.location.hostname === 'localhost'
+const PROXY = process.browser && window.location.hostname === 'localhost'
   ? 'https://thingproxy.freeboard.io/fetch/'
   : '/cors-proxy/';
 const API_BASE = `${PROXY}https://vidnice.com/APIswitch.php?key=feed`
