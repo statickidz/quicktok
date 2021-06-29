@@ -3,12 +3,11 @@ export const state = () => ({
   maxCursor: 0
 })
 
-const baseURL = process.env.DEPLOY_URL || 'https://quicktok.netlify.app'
 export const actions = {
   async get({ commit, state }) {
     return await this.$axios({
       method: 'post',
-      url: `${baseURL}/api`,
+      url: `/api`,
       data: 'region=es',
       config: { headers: { 'content-type': 'application/x-www-form-urlencoded; charset=UTF-8' } }
     })
