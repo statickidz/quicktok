@@ -2,6 +2,7 @@ import pkg from './package'
 
 export default {
   mode: 'universal',
+  target: 'static', // default is 'server'
 
   /*
    ** Headers of the page
