@@ -1,0 +1,5 @@
+[[redirects]]
+  from = "/api"
+  to = "https://vidnice.com/APIswitch.php?key=feed"
+  status = 200
+  force = true
