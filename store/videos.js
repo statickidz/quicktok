@@ -3,8 +3,7 @@ export const state = () => ({
   maxCursor: 0
 })
 
-const baseURL = process.env.URL || ''
-
+const baseURL = process.env.DEPLOY_URL || ''
 export const actions = {
   async get({ commit, state }) {
     return await this.$axios({
