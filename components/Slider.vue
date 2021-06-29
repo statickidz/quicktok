@@ -17,12 +17,11 @@
               'url(' + item.video.origin_cover.url_list[0] + ')',
           }"
         />
-        <div v-if="!playing" class="controls">
+        <div v-if="!firstPlayDone" class="controls">
           <div @click="onPlayClick" class="video-play-button"></div>
         </div>
         <video
           loop
-          autoplay
           ref="videoRef"
           controls="controls"
           controlslist="nofullscreen nodownload"
@@ -38,6 +37,7 @@
           <div class="author animated wobble">
             <a
               target="_blank"
+              @click="onLinkClick"
               :href="`https://www.tiktok.com/@${item.author.uid}`"
             >
               <img
@@ -51,6 +51,7 @@
               <a
                 class="name"
                 target="_blank"
+                @click="onLinkClick"
                 :href="`https://www.tiktok.com/@${item.author.uid}`"
                 >@{{ item.author.nickname }}</a
               >
@@ -60,6 +61,7 @@
           <a
             class="heart-container"
             target="_blank"
+            @click="onLinkClick"
             :href="`https://www.tiktok.com/@${item.author.uid}/video/${item.aweme_id}`"
           >
             <div class="heart pulse"></div>
@@ -85,7 +87,7 @@ export default {
   }),
   data() {
     return {
-      playing: false,
+      firstPlayDone: false,
       currentSlide: 0,
       prevSlide: 0,
       error: false,
@@ -113,9 +115,9 @@ export default {
     loadVideos() {
       return this.$store.dispatch('videos/get').then(() => this.restart())
     },
-    loadMore(currentIndex) {
+    loadMore() {
       // load more if there is less than 10 videos left
-      if (currentIndex + 10 > this.videos.length) {
+      if (this.currentSlide + 10 > this.videos.length) {
         this.loadVideos()
       }
     },
@@ -134,25 +136,26 @@ export default {
         video.pause()
       }
     },
+    onLinkClick() {
+      this.$refs.videoRef[this.currentSlide].pause()
+    },
     onPlayClick() {
-      this.playing = true
+      this.firstPlayDone = true
       this.$refs.videoRef[this.currentSlide].play()
     },
     onSlide({ currentSlide, slideFrom }) {
       this.currentSlide = currentSlide
       this.prevSlide = slideFrom
       // play video and pause previous
-      if (this.playing) {
+      if (this.firstPlayDone) {
         this.$refs.videoRef[currentSlide].play()
-      }
-      if (slideFrom > 0 || currentSlide === 1) {
         this.$refs.videoRef[slideFrom].pause()
       }
       // preload next video
       if (undefined !== this.$refs.videoRef[currentSlide + 1]) {
         this.$refs.videoRef[currentSlide + 1].preload = 'auto'
       }
-      this.loadMore(currentSlide)
+      this.loadMore()
     },
     restart() {
       return this.$nextTick().then(async () => {
