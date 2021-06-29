@@ -1,8 +1,3 @@
-const PROXY = process.browser && window.location.hostname === 'localhost'
-  ? 'https://thingproxy.freeboard.io/fetch/'
-  : '/cors-proxy/';
-const API_BASE = `${PROXY}https://vidnice.com/APIswitch.php?key=feed`
-
 export const state = () => ({
   videos: [],
   maxCursor: 0
@@ -12,7 +7,7 @@ export const actions = {
   async get({ commit, state }) {
     return await this.$axios({
       method: 'post',
-      url: API_BASE,
+      url: '/api',
       data: 'region=es',
       config: { headers: { 'content-type': 'application/x-www-form-urlencoded; charset=UTF-8' } }
     })

@@ -67,8 +67,10 @@ export default {
    */
   proxy: {
     '/api': {
-      target: 'https://m.tiktok.com',
-      pathRewrite: { '^/api': '/' }
+      target: 'https://vidnice.com/APIswitch.php?key=feed',
+      pathRewrite: {
+        '^/api': '/'
+      }
     }
   },
 
