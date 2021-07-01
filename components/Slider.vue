@@ -60,6 +60,12 @@
                 :href="`https://www.tiktok.com/@${item.author.uid}`"
                 >@{{ item.author.nickname }}</a
               >
+              <div class="date">
+                <time-ago
+                  :datetime="new Date(item.create_time * 1000)"
+                  long
+                ></time-ago>
+              </div>
               <div class="desc">{{ item.desc }}</div>
             </div>
           </div>
@@ -84,6 +90,7 @@
 import Vue from 'vue'
 import { mapMutations, mapGetters } from 'vuex'
 import { Hooper, Slide } from 'hooper'
+import { TimeAgo } from 'vue2-timeago'
 import Logo from '~/components/Logo.vue'
 
 export default {
@@ -107,6 +114,7 @@ export default {
   },
   components: {
     Hooper,
+    TimeAgo,
     Slide,
     Logo,
   },
@@ -265,6 +273,11 @@ body {
     .name {
       font-size: 2rem;
       letter-spacing: 1px;
+    }
+    .date {
+      font-size: 0.7rem;
+      letter-spacing: 1px;
+      margin: 0.2rem 0;
     }
     .desc {
       max-width: 50%;
