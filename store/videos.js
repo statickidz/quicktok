@@ -5,10 +5,14 @@ export const state = () => ({
 
 export const actions = {
   async get({ commit, state }) {
+
+    const regions = ['es', 'en', 'br', 'de', 'hk', 'in', 'id', 'jp', 'my', 'ru', 'sg', 'tw', 'gb', 'vn']
+    const randomRegion = regions[Math.floor(Math.random() * regions.length)];
+
     return await this.$axios({
       method: 'post',
       url: `/api`,
-      data: 'region=es',
+      data: `region=${randomRegion}`,
       config: { headers: { 'content-type': 'application/x-www-form-urlencoded; charset=UTF-8' } }
     })
       .then(async res => {

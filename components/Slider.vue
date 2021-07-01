@@ -121,8 +121,8 @@ export default {
       return this.$store.dispatch('videos/get').then(() => this.restart())
     },
     loadMore() {
-      // load more if there is less than 10 videos left
-      if (this.currentSlide + 10 > this.videos.length) {
+      // load more if there is less than 8 videos left
+      if (this.currentSlide + 8 > this.videos.length) {
         this.loadVideos()
       }
     },
