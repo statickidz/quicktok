@@ -66,7 +66,20 @@
                   long
                 ></time-ago>
               </div>
-              <div class="desc">{{ item.desc }}</div>
+              <div class="desc">
+                {{ item.desc }}
+                <span class="tags">
+                  <a
+                    v-for="tag in item.text_extra"
+                    class="tag"
+                    target="_blank"
+                    @click="onLinkClick"
+                    :href="`https://www.tiktok.com/tag/${tag.hashtag_name}`"
+                  >
+                    {{ `#${tag.hashtag_name} ` }}
+                  </a>
+                </span>
+              </div>
             </div>
           </div>
           <a
@@ -282,6 +295,10 @@ body {
     .desc {
       max-width: 50%;
       font-size: 1.2rem;
+    }
+    .tags {
+      .tag {
+      }
     }
   }
   .video {
