@@ -3,7 +3,6 @@
 </p>
 
 # TikTok popular stuff viewer
-> [https://quicktok.netlify.com](https://quicktok.netlify.com/)
 
 ## Build Setup
 
