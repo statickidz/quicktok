@@ -20,7 +20,7 @@
     "bootstrap-vue": "^2.21.2",
     "cross-env": "^7.0.3",
     "hooper": "^0.3.4",
-    "nuxt": "^2.15.7",
+    "nuxt": "^3.4.3",
     "sass": "^1.62.1",
     "vue2-timeago": "^2.0.0"
   },
